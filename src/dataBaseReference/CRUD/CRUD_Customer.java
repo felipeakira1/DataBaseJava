@@ -54,7 +54,6 @@ public class CRUD_Customer {
 	            System.err.println("Error inserting customer: " + e.getMessage());
 	        }
 	    }
-	    scanner.close();
 	}
 
 	// Agora você pode chamar essa função no menu de clientes para inserir clientes
