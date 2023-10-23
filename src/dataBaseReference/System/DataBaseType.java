@@ -1,6 +1,6 @@
 package dataBaseReference.System;
 
-enum DataBaseType
+public enum DataBaseType
    {
     MEMORY,
     MARIADB,

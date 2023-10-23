@@ -80,6 +80,15 @@ public class Controller
       requestData();
       closeConnection();
       }
+   
+   public void initializeConnection()
+   {
+	   openConnection();
+   }
+   public void endConnection()
+   {
+	   closeConnection();
+   }
 
    private void insertData()
       {
@@ -270,4 +279,9 @@ public class Controller
          System.err.println("Error retrieving order: " + e.getMessage());
          }
       }
+
+public AbstractCustomerDAO getCustomerDAO() {
+	
+	return customerDAO;
+}
    }
