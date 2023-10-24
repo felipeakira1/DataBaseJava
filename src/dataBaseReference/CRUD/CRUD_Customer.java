@@ -49,13 +49,35 @@ public class CRUD_Customer {
 	        //insert the customer into the database
 	        try {
 	            customerDAO.addCustomer(newCustomer);
-	            System.out.println("Customer added successfully.");
+	            System.out.println("Customer added successfully. Id: " + newCustomer.getId());
 	        } catch (SQLException e) {
 	            System.err.println("Error inserting customer: " + e.getMessage());
 	        }
 	    }
 	}
+	
+	
+	public void queryCustomerById(AbstractCustomerDAO customerDAO, int customerId) {
+	    try {
+	        Customer customer = customerDAO.getCustomerById(customerId);
 
-	// Agora você pode chamar essa função no menu de clientes para inserir clientes
+	        if (customer != null) {
+	            System.out.println("Customer Information:");
+	            System.out.println("ID: " 		+ customer.getId());
+	            System.out.println("Name: " 	+ customer.getName());
+	            System.out.println("City: " 	+ customer.getCity());
+	            System.out.println("State: " 	+ customer.getState());
+
+	        } else {
+	            System.out.println("Customer with ID " + customerId + " not found.");
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error querying customer: " + e.getMessage());
+	    }
+
+	}
+
+
+
 
 }

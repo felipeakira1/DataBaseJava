@@ -3,14 +3,18 @@ package dataBaseReference.Menu;
 import java.util.Scanner;
 
 import dataBaseReference.CRUD.CRUD_Customer;
+import dataBaseReference.DAO.AbstractCustomerDAO;
 import dataBaseReference.System.DataBaseType;
 import dataBaseReference.System.Controller;
 
 public class Main {
     private Scanner scanner;
-
+    public Controller selectedDB = new Controller(DataBaseType.MEMORY); //chose MemoryDB
+    public CRUD_Customer customerCRUD;
+    
     public Main() {
         scanner = new Scanner(System.in);
+        selectedDB.initializeConnection();
     }
 
     public void displayMainMenu() {
@@ -69,41 +73,25 @@ public class Main {
 
             int choice = scanner.nextInt();
             scanner.nextLine(); //consume newline character
-
             switch (choice) {
                 case 1:
-                	System.out.println("Choose a database:");
-                    System.out.println("1. MariaDB");
-                    System.out.println("2. MemoryDB");
-                    int dbChoice = scanner.nextInt();
-                    scanner.nextLine(); //consume newline character
+                     System.out.println("MemoryDB: Inserting customers");
+                     customerCRUD = new CRUD_Customer();
 
-                    if (dbChoice == 1) { //chose MARIADB
-                        Controller controllerMariaDB = new Controller(DataBaseType.MARIADB);
-                        controllerMariaDB.initializeConnection();
-                        System.out.println("MariaDB: Inserting customers");
-                        CRUD_Customer customerCRUD = new CRUD_Customer();
-
-                      //inserting customers
-                        customerCRUD.insertCustomers(controllerMariaDB.getCustomerDAO(), 5);
+                     //inserting customers
+                     customerCRUD.insertCustomers(selectedDB.getCustomerDAO(), 5);
                         
-                        controllerMariaDB.endConnection();
-                    } else if (dbChoice == 2) { //chose MEMORY
-                        Controller controllerMemoryDB = new Controller(DataBaseType.MEMORY);
-                        controllerMemoryDB.initializeConnection();
-                        System.out.println("MemoryDB: Inserting customers");
-                        CRUD_Customer customerCRUD = new CRUD_Customer();
-
-                        //inserting customers
-                        customerCRUD.insertCustomers(controllerMemoryDB.getCustomerDAO(), 5);
-                        
-                        controllerMemoryDB.endConnection();
-                    } else {
-                        System.out.println("Invalid database choice.");
-                    }
+              
                     break;
                 case 2:
-                    // Implement customer query by identifier
+                    System.out.println("Querying by ID");
+
+                    System.out.print("Enter the customer ID to query: ");
+                    int customerId = scanner.nextInt();
+                    scanner.nextLine(); //consume the newline character
+                    customerCRUD = new CRUD_Customer();
+                    AbstractCustomerDAO customerDAO = selectedDB.getCustomerDAO();
+                    customerCRUD.queryCustomerById(customerDAO, customerId);
                     break;
                 case 3:
                     // Implement customer query by name
@@ -223,6 +211,7 @@ public class Main {
 
     public void close() {
         scanner.close();
+        selectedDB.endConnection();
     }
 
     public static void main(String[] args) {

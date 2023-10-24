@@ -32,7 +32,11 @@ public class Customer_Mem_DAO extends AbstractCustomerDAO
       {
       Customer customer = null;
       Iterator<Customer> iterator = databaseRef.getCustomerList().iterator();
-
+      /*
+      System.out.println("IDs in the customer list: ");
+      for (Customer c : databaseRef.getCustomerList()) { //usar esse trecho se quiser testar o estado da lista a cada consulta
+          System.out.println(c.getId());
+      }*/
       while (iterator.hasNext())
          {
          Customer buffer = iterator.next();
