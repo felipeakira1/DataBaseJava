@@ -1,5 +1,6 @@
 package dataBaseReference.CRUD;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 import dataBaseReference.DAO.AbstractCustomerDAO;
@@ -75,6 +76,34 @@ public class CRUD_Customer {
 	        System.err.println("Error querying customer: " + e.getMessage());
 	    }
 
+	}
+	
+	public void queryCustomerByName(AbstractCustomerDAO customerDAO, String customerName) {
+		try {
+			List<Customer> customers = customerDAO.getCustomersByName(customerName);
+			if(!customers.isEmpty()) {
+				for(Customer costumer : customers) {
+					System.out.println("Customer Information:");
+		            System.out.println("ID: " 		+ costumer.getId());
+		            System.out.println("Name: " 	+ costumer.getName());
+		            System.out.println("City: " 	+ costumer.getCity());
+		            System.out.println("State: " 	+ costumer.getState());
+				}
+			} else {
+				System.out.println("Customer with name " + customerName + " not found.");
+			}
+			
+		} catch (SQLException e) {
+	        System.err.println("Error querying customer: " + e.getMessage());
+	    }
+	}
+	
+	public void deleteCustomerById(AbstractCustomerDAO customerDAO, int customerId) {
+		try {
+			customerDAO.deleteCustomer(customerId);
+		} catch (SQLException e) {
+	        System.err.println("Error deleting customer: " + e.getMessage());
+	    }
 	}
 
 

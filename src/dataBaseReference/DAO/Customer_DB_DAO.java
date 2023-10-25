@@ -66,7 +66,12 @@ public class Customer_DB_DAO extends AbstractCustomerDAO
 
       return customer;
       }
-
+   
+   @Override
+   public List<Customer> getCustomersByName(String customerName) throws SQLException {
+	   List<Customer> customers = new ArrayList<>();
+	   return customers;
+   }
    @Override
    public void addCustomer(Customer customer) throws SQLException
       {

@@ -1,6 +1,8 @@
 package dataBaseReference.Menu;
 
 import java.util.Scanner;
+import java.sql.SQLException;
+import java.util.InputMismatchException;
 
 import dataBaseReference.CRUD.CRUD_Customer;
 import dataBaseReference.DAO.AbstractCustomerDAO;
@@ -15,6 +17,7 @@ public class Main {
     public Main() {
         scanner = new Scanner(System.in);
         selectedDB.initializeConnection();
+        customerCRUD = new CRUD_Customer();
     }
 
     public void displayMainMenu() {
@@ -63,7 +66,9 @@ public class Main {
 
         
         while (!exit) {
-        	System.out.println("Customer Menu:");
+        	System.out.println("==================");
+        	System.out.println("| Customer Menu: |");
+        	System.out.println("==================");
             System.out.println("1. Insert customers | Check value range of the group");
             System.out.println("2. Query customer by identifier");
             System.out.println("3. Query customer by name");
@@ -75,8 +80,9 @@ public class Main {
             scanner.nextLine(); //consume newline character
             switch (choice) {
                 case 1:
-                     System.out.println("MemoryDB: Inserting customers");
-                     customerCRUD = new CRUD_Customer();
+                	 System.out.println("=======================");
+                     System.out.println("| Inserting customers |");
+                	 System.out.println("=======================");
 
                      //inserting customers
                      customerCRUD.insertCustomers(selectedDB.getCustomerDAO(), 5);
@@ -84,20 +90,47 @@ public class Main {
               
                     break;
                 case 2:
-                    System.out.println("Querying by ID");
+               	 	System.out.println("==================");
+                    System.out.println("| Querying by ID |");
+               	 	System.out.println("==================");
 
                     System.out.print("Enter the customer ID to query: ");
                     int customerId = scanner.nextInt();
                     scanner.nextLine(); //consume the newline character
-                    customerCRUD = new CRUD_Customer();
                     AbstractCustomerDAO customerDAO = selectedDB.getCustomerDAO();
                     customerCRUD.queryCustomerById(customerDAO, customerId);
                     break;
                 case 3:
-                    // Implement customer query by name
+                	System.out.println("====================");
+                    System.out.println("| Querying by name |");
+               	 	System.out.println("====================");
+                    System.out.print("Enter the customer name to query: ");
+                    String customerName = scanner.nextLine();
+                    //scanner.nextLine(); ???
+                    customerCRUD.queryCustomerByName(selectedDB.getCustomerDAO(), customerName);
                     break;
                 case 4:
-                    // Implement customer deletion by identifier
+                	System.out.println("==================");
+                    System.out.println("| Deleting by ID |");
+               	 	System.out.println("==================");
+               	 	
+               	 	boolean inputValid = false;
+               	 	customerId = 0;
+               	 	
+               	 	while(!inputValid) {
+	               	 	try {
+	               	 		System.out.print("Enter the customer ID to delete: ");
+	               	 		customerId = scanner.nextInt();
+	               	 		scanner.nextLine();
+	               	 		customerCRUD.deleteCustomerById(selectedDB.getCustomerDAO(), customerId);
+	               	 		System.out.println("Customer " + customerId + " deleted successfully");
+	               	 		inputValid = true;
+	               	 	} catch(InputMismatchException e) {
+	               	 		System.out.println("Invalid input. Please enter a valid integer for the customer ID.");
+	               	 		scanner.nextLine();
+	               	 	}
+	               	 	// verificar se ele sairá do laço caso houver um sqlexception
+               	 	}
                     break;
                 case 5:
                     exit = true;
