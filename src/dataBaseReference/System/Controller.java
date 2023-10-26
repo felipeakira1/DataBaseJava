@@ -280,8 +280,11 @@ public class Controller
          }
       }
 
-public AbstractCustomerDAO getCustomerDAO() {
+	public AbstractCustomerDAO getCustomerDAO() {
+		return customerDAO;
+	}
 	
-	return customerDAO;
+	public AbstractOrderDAO getOrdersDAO() {
+		return ordersDAO;
+	}
 }
-   }

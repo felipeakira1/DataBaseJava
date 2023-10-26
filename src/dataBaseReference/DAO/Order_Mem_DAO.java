@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import dataBaseReference.DTO.Orders;
 import dataBaseReference.RDBMS.MemoryDBConnection;
@@ -18,6 +19,34 @@ public class Order_Mem_DAO extends AbstractOrderDAO
       super();
       this.databaseRef = databaseRef;
       }
+   
+   @Override
+   public List<Orders> getAllOrdersOrderedByNumber() throws SQLException{
+	   List<Orders> orders = new ArrayList<>();
+	   orders = databaseRef.getOrderList();
+	   
+	   boolean swap = true;
+       while (swap) {
+           swap = false;
+           ListIterator<Orders> iterator = orders.listIterator();
+           Orders current, next;
+
+           while (iterator.hasNext()) {
+               current = iterator.next();
+               if (iterator.hasNext()) {
+                   next = iterator.next();
+                   if (current.getNumber() > next.getNumber()) {
+                       iterator.set(next);
+                       iterator.previous();
+                       iterator.set(current);
+                       swap = true;
+                   }
+               }
+           }
+       }
+	   
+	   return orders;
+   }
 
    @Override
    public List<Orders> getOrdersByCustomerId(int customerId) throws SQLException

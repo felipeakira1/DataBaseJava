@@ -7,6 +7,8 @@ import dataBaseReference.DTO.Orders;
 
 public abstract class AbstractOrderDAO
    {
+   abstract public List<Orders> getAllOrdersOrderedByNumber() throws SQLException;	
+	
    abstract public List<Orders> getOrdersByCustomerId(int customerId) throws SQLException;
 
    abstract public Orders getOrderByNumber(int orderNumber) throws SQLException;

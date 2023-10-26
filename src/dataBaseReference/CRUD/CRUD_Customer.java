@@ -24,7 +24,7 @@ public class CRUD_Customer {
 	        int lowerBound = group * 10000;
 	        int upperBound = (group + 1) * 10000 - 1;
 	        
-	        System.out.print("Enter customer name: ");
+	        System.out.print("\nEnter customer name: ");
 	        String name = scanner.nextLine();
 	        newCustomer.setName(name);
 	        
@@ -36,16 +36,18 @@ public class CRUD_Customer {
 	        String state = scanner.nextLine();
 	        newCustomer.setState(state);
 	        
-	        System.out.print("Enter customer identifier (" + lowerBound + " - " + upperBound + "): ");
-	        int id = scanner.nextInt();
-	        scanner.nextLine(); //consume the newline character
-	        
-	        if (id < lowerBound || id > upperBound) {
-	            System.out.println("Invalid identifier. It must be in the range of " + lowerBound + " - " + upperBound + ".");
-	            continue; 
+	        while(true) {
+		        System.out.print("Enter customer identifier (" + lowerBound + " - " + upperBound + "): ");
+		        int id = scanner.nextInt();
+		        scanner.nextLine(); //consume the newline character
+		        
+		        if (id < lowerBound || id > upperBound) {
+		            System.err.println("\nInvalid identifier. It must be in the range of " + lowerBound + " - " + upperBound + ".\n"); 
+		        } else {
+		        	newCustomer.setId(id);
+		        	break;
+		        }
 	        }
-	        
-	        newCustomer.setId(id);
 	        
 	        //insert the customer into the database
 	        try {
@@ -63,11 +65,14 @@ public class CRUD_Customer {
 	        Customer customer = customerDAO.getCustomerById(customerId);
 
 	        if (customer != null) {
-	            System.out.println("Customer Information:");
+	        	System.out.println("\n=========================");
+	        	System.out.println("| Customer Information: |");
+	        	System.out.println("=========================");
 	            System.out.println("ID: " 		+ customer.getId());
 	            System.out.println("Name: " 	+ customer.getName());
 	            System.out.println("City: " 	+ customer.getCity());
 	            System.out.println("State: " 	+ customer.getState());
+	            System.out.println("-------------------------");
 
 	        } else {
 	            System.out.println("Customer with ID " + customerId + " not found.");
@@ -83,11 +88,14 @@ public class CRUD_Customer {
 			List<Customer> customers = customerDAO.getCustomersByName(customerName);
 			if(!customers.isEmpty()) {
 				for(Customer costumer : customers) {
-					System.out.println("Customer Information:");
+		        	System.out.println("\n=========================");
+		        	System.out.println("| Customer Information: |");
+		        	System.out.println("=========================");
 		            System.out.println("ID: " 		+ costumer.getId());
 		            System.out.println("Name: " 	+ costumer.getName());
 		            System.out.println("City: " 	+ costumer.getCity());
 		            System.out.println("State: " 	+ costumer.getState());
+		            System.out.println("-------------------------");
 				}
 			} else {
 				System.out.println("Customer with name " + customerName + " not found.");

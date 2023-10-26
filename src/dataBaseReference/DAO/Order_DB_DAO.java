@@ -123,4 +123,10 @@ public class Order_DB_DAO extends AbstractOrderDAO
          preparedStatement.executeUpdate();
          }
       }
-   }
+
+	@Override
+	public List<Orders> getAllOrdersOrderedByNumber() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}
