@@ -28,12 +28,12 @@ public class CRUD_Order {
 	        newOrder.setCustomerId(costumerId);
 	        
 	        System.out.print("Enter order description: ");
+	        scanner.nextLine();
 	        String description = scanner.nextLine();
 	        newOrder.setDescription(description);
-	        scanner.nextLine();
 	        
 	        System.out.print("Enter order price: US$ ");
-	        BigDecimal price = scanner.nextBigDecimal();
+	        float price = new Float(scanner.nextLine());
 	        newOrder.setPrice(price);	
 	        
 	        //insert the order into the database

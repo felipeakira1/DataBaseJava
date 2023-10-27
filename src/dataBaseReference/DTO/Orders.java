@@ -1,20 +1,18 @@
 package dataBaseReference.DTO;
 
-import java.math.BigDecimal;
-
 public class Orders
    {
    private int        number;
    private int        customerId;
    private String     description;
-   private BigDecimal price;
+   private float price;
 
    public Orders()
       {
       super();
       }
 
-   public Orders(int number, int customerId, String description, BigDecimal price)
+   public Orders(int number, int customerId, String description, float price)
       {
       super();
       this.number      = number;
@@ -38,7 +36,7 @@ public class Orders
       return description;
       }
 
-   public final BigDecimal getPrice()
+   public final float getPrice()
       {
       return price;
       }
@@ -58,7 +56,7 @@ public class Orders
       this.description = description;
       }
 
-   public final void setPrice(BigDecimal price)
+   public final void setPrice(float price)
       {
       this.price = price;
       }

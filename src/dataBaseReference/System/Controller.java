@@ -111,7 +111,7 @@ public class Controller
                order.setNumber((i - 1) * 2 + j); // Ensure unique order numbers
                order.setCustomerId(i);
                order.setDescription("Order " + j + " for Customer " + i);
-               order.setPrice(new BigDecimal(new Random().nextDouble() * 100.0)); // Random
+               order.setPrice(new Float(new Random().nextDouble() * 100.0)); // Random
                ordersDAO.addOrder(order);
                }
             }

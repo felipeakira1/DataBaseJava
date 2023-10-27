@@ -37,7 +37,7 @@ public class Order_DB_DAO extends AbstractOrderDAO
             order.setNumber(resultSet.getInt("number"));
             order.setCustomerId(resultSet.getInt("customerId"));
             order.setDescription(resultSet.getString("description"));
-            order.setPrice(resultSet.getBigDecimal("price"));
+            order.setPrice(resultSet.getFloat("price"));
             orders.add(order);
             }
          }
@@ -62,7 +62,7 @@ public class Order_DB_DAO extends AbstractOrderDAO
             order.setNumber(resultSet.getInt("number"));
             order.setCustomerId(resultSet.getInt("customerId"));
             order.setDescription(resultSet.getString("description"));
-            order.setPrice(resultSet.getBigDecimal("price"));
+            order.setPrice(resultSet.getFloat("price"));
             }
          }
 
@@ -79,7 +79,7 @@ public class Order_DB_DAO extends AbstractOrderDAO
          preparedStatement.setInt(1, order.getNumber());
          preparedStatement.setInt(2, order.getCustomerId());
          preparedStatement.setString(3, order.getDescription());
-         preparedStatement.setBigDecimal(4, order.getPrice());
+         preparedStatement.setFloat(4, order.getPrice());
 
          preparedStatement.executeUpdate();
          }
@@ -94,7 +94,7 @@ public class Order_DB_DAO extends AbstractOrderDAO
          {
          preparedStatement.setInt(1, order.getCustomerId());
          preparedStatement.setString(2, order.getDescription());
-         preparedStatement.setBigDecimal(3, order.getPrice());
+         preparedStatement.setFloat(3, order.getPrice());
          preparedStatement.setInt(4, order.getNumber());
 
          preparedStatement.executeUpdate();
