@@ -99,6 +99,7 @@ public class Customer_Mem_DAO extends AbstractCustomerDAO
             break;
             }
          }
+      // throw new CustomerNotFoundException
       }
 
    @Override

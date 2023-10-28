@@ -8,7 +8,7 @@ public class CRUD_Information {
 	}
 	
 	public static void aboutProgram() {
-        System.out.println("\nVersion: 1.1 (Last Update On: 10/26/2023)");
+        System.out.println("\nVersion: 1.3 (Last Update On: 10/28/2023)");
         System.out.println("Authors:\n\tFelipe Akira Nozaki - f172885@dac.unicamp.br"
         				   + "\n\tJulio Morino Anastácio - j173434@dac.unicamp.br"
         				   + "\n\tMiguel Miranda Melo Donanzam - m260851@dac.unicamp.br");

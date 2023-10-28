@@ -2,6 +2,7 @@ package dataBaseReference.CRUD;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,9 +10,13 @@ import dataBaseReference.DAO.AbstractOrderDAO;
 import dataBaseReference.DTO.Orders;
 
 public class CRUD_Order {
+	private Scanner scanner;
+	
+	public CRUD_Order() {
+		scanner = new Scanner(System.in);
+	}
+	
 	public void insertOrder(AbstractOrderDAO orderDAO) {
-	    Scanner scanner = new Scanner(System.in);
-	    
 	    System.out.print("Enter the number of orders you want to insert: ");
 	    int numOrders = scanner.nextInt();
 	    scanner.nextLine(); // Consume the newline character
@@ -47,8 +52,10 @@ public class CRUD_Order {
 	}
 	
 	
-	public void queryOrderByNumber(AbstractOrderDAO orderDAO, int orderNumber) {
-	    try {
+	public void queryOrderByNumber(AbstractOrderDAO orderDAO) {
+		System.out.print("Enter the order's number to query: ");
+        int orderNumber = scanner.nextInt();
+		try {
 	    	Orders order = orderDAO.getOrderByNumber(orderNumber);
 
 	        if (order != null) {
@@ -57,6 +64,7 @@ public class CRUD_Order {
 	        	System.out.println("======================");
 	            System.out.println("Order Nº: "     + order.getNumber());
 	            System.out.println("Customer ID: " 	+ order.getCustomerId());
+	            // Adicionar Customer name
 	            System.out.println("Description: " 	+ order.getDescription());
 	            System.out.println("Price: US$ " 	+ order.getPrice());
 	            System.out.println("-----------------------");
@@ -69,11 +77,31 @@ public class CRUD_Order {
 	}
 	
 	
-	public void deleteOrderByNumber(AbstractOrderDAO orderDAO, int orderNumber) {
-		try {
-			orderDAO.deleteOrder(orderNumber);
-		} catch (SQLException e) {
-	        System.err.println("Error deleting customer: " + e.getMessage());
-	    }
+	public void deleteOrderByNumber(AbstractOrderDAO orderDAO) {
+		boolean inputValid = false;
+   	 	int orderNumber = 0;
+   	 	
+   	 	while(!inputValid) {
+       	 	try {
+       	 		System.out.print("Enter the order's number to delete: ");
+       	 		orderNumber = scanner.nextInt();
+       	 		scanner.nextLine();
+	       	 	try {
+	    			orderDAO.deleteOrder(orderNumber);
+	    			System.out.println("Order " + orderNumber + " deleted successfully");
+	    		} catch (SQLException e) {
+	    	        System.err.println("Error deleting customer: " + e.getMessage());
+	    	    }
+	       	 	inputValid = true;
+       	 	} catch(InputMismatchException e) {
+       	 		System.err.println("Invalid input. Please enter a valid integer for the order number.");
+       	 		scanner.nextLine();
+       	 	}
+   	 	}
+		
+	}
+	
+	public void close() {
+		scanner.close();
 	}
 }

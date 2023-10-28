@@ -1,5 +1,6 @@
 package dataBaseReference.CRUD;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,11 +9,14 @@ import dataBaseReference.DTO.Customer;
 
 
 public class CRUD_Customer {
+	private Scanner scanner;
 	
-																//group 5
+	public CRUD_Customer() {
+		scanner = new Scanner(System.in);
+	}
+	
+	//group 5
 	public void insertCustomers(AbstractCustomerDAO customerDAO, int group) {
-	    Scanner scanner = new Scanner(System.in);
-	    
 	    System.out.print("Enter the number of customers you want to insert: ");
 	    int numCustomers = scanner.nextInt();
 	    scanner.nextLine(); // Consume the newline character
@@ -60,10 +64,12 @@ public class CRUD_Customer {
 	}
 	
 	
-	public void queryCustomerById(AbstractCustomerDAO customerDAO, int customerId) {
-	    try {
+	public void queryCustomerById(AbstractCustomerDAO customerDAO) {
+	    System.out.print("Enter the customer ID to query: ");
+	    int customerId = scanner.nextInt();
+	    scanner.nextLine();
+		try {
 	        Customer customer = customerDAO.getCustomerById(customerId);
-
 	        if (customer != null) {
 	        	System.out.println("\n=========================");
 	        	System.out.println("| Customer Information: |");
@@ -83,7 +89,9 @@ public class CRUD_Customer {
 
 	}
 	
-	public void queryCustomerByName(AbstractCustomerDAO customerDAO, String customerName) {
+	public void queryCustomerByName(AbstractCustomerDAO customerDAO) {
+		System.out.print("Enter the customer name to query: ");
+		String customerName = scanner.nextLine();
 		try {
 			List<Customer> customers = customerDAO.getCustomersByName(customerName);
 			if(!customers.isEmpty()) {
@@ -106,15 +114,31 @@ public class CRUD_Customer {
 	    }
 	}
 	
-	public void deleteCustomerById(AbstractCustomerDAO customerDAO, int customerId) {
-		try {
-			customerDAO.deleteCustomer(customerId);
-		} catch (SQLException e) {
-	        System.err.println("Error deleting customer: " + e.getMessage());
-	    }
+	public void deleteCustomerById(AbstractCustomerDAO customerDAO) {
+		boolean inputValid = false;
+		int customerId = 0;
+		while(!inputValid) {
+       	 	try {
+       	 		System.out.print("Enter the customer ID to delete: ");
+       	 		customerId = scanner.nextInt();
+       	 		scanner.nextLine();
+	       	 	try {
+	    			customerDAO.deleteCustomer(customerId);
+	    			System.out.println("Customer " + customerId + " deleted successfully");
+	       	 	} catch (SQLException e) {
+	    	        System.err.println("Error deleting customer: " + e.getMessage());
+	    	    }
+       	 		
+       	 		inputValid = true;
+       	 	} catch(InputMismatchException e) {
+       	 		System.err.println("Invalid input. Please enter a valid integer for the customer ID.");
+       	 		scanner.nextLine();
+       	 	}
+       	 	// verificar se ele sairá do laço caso houver um sqlexception
+   	 	}
 	}
-
-
-
-
+	
+	public void close() {
+		scanner.close();
+	}
 }

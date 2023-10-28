@@ -70,6 +70,7 @@ public class Customer_DB_DAO extends AbstractCustomerDAO
    @Override
    public List<Customer> getCustomersByName(String customerName) throws SQLException {
 	   List<Customer> customers = new ArrayList<>();
+	   String query = "FAZER";
 	   return customers;
    }
    @Override
