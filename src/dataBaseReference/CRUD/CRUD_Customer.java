@@ -64,7 +64,7 @@ public class CRUD_Customer {
 	}
 	
 	
-	public void queryCustomerById(AbstractCustomerDAO customerDAO) {
+	public int queryCustomerById(AbstractCustomerDAO customerDAO) {
 	    System.out.print("Enter the customer ID to query: ");
 	    int customerId = scanner.nextInt();
 	    scanner.nextLine();
@@ -79,14 +79,17 @@ public class CRUD_Customer {
 	            System.out.println("City: " 	+ customer.getCity());
 	            System.out.println("State: " 	+ customer.getState());
 	            System.out.println("-------------------------");
-
+	            
+	            return customerId; //customer found
 	        } else {
 	            System.out.println("Customer with ID " + customerId + " not found.");
+	            return 404; //customer not found
 	        }
 	    } catch (SQLException e) {
 	        System.err.println("Error querying customer: " + e.getMessage());
+	        return 2;
 	    }
-
+		
 	}
 	
 	public void queryCustomerByName(AbstractCustomerDAO customerDAO) {

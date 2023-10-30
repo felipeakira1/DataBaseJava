@@ -127,12 +127,21 @@ public class Menu {
 
         int choice = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
-        
+        AbstractCustomerDAO customerDAO = selectedDB.getCustomerDAO();
         AbstractOrderDAO orderDAO = selectedDB.getOrdersDAO();
         switch (choice) {
             case 1:
             	displayTitle("Insert Order for Costumer");
-            	orderCRUD.insertOrder(orderDAO);
+            	//verifying customer existence
+            	int customerFound;
+            	customerFound = customerCRUD.queryCustomerById(customerDAO);
+            	if(customerFound == 404 || customerFound == 2) {
+            		System.out.println("Cancelling Order insertion.");
+            	}
+            	else {
+            		System.out.println("This Order refers to the Customer above\nID: " + customerFound);
+            		orderCRUD.insertOrder(orderDAO, 	5,     customerFound);
+            	}									//group		//customerID
             	displayOrderMenu();
                 break;
             case 2:

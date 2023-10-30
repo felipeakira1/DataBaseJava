@@ -15,8 +15,8 @@ public class CRUD_Order {
 	public CRUD_Order() {
 		scanner = new Scanner(System.in);
 	}
-	
-	public void insertOrder(AbstractOrderDAO orderDAO) {
+														//group 5
+	public void insertOrder(AbstractOrderDAO orderDAO, int group, int customerFound) {
 	    System.out.print("Enter the number of orders you want to insert: ");
 	    int numOrders = scanner.nextInt();
 	    scanner.nextLine(); // Consume the newline character
@@ -24,13 +24,22 @@ public class CRUD_Order {
 	    for (int i = 0; i < numOrders; i++) {
 	        Orders newOrder = new Orders();
 	        
-	        System.out.print("\nEnter order number: ");
-	        int number = scanner.nextInt();
-	        newOrder.setNumber(number);
+	        int lowerBound = group * 10000;
+	        int upperBound = (group + 1) * 10000 - 1;
 	        
-	        System.out.print("Enter customer ID: ");
-	        int costumerId = scanner.nextInt();
-	        newOrder.setCustomerId(costumerId);
+	        while(true) {
+		        System.out.print("\nEnter order number: ");
+		        int number = scanner.nextInt();
+		        
+		        if (number < lowerBound || number > upperBound) {
+		            System.err.println("\nInvalid identifier. It must be in the range of " + lowerBound + " - " + upperBound + ".\n"); 
+		        }else {
+		        	newOrder.setNumber(number);
+		        	break;
+		        }
+	        }
+	        
+	        newOrder.setCustomerId(customerFound);
 	        
 	        System.out.print("Enter order description: ");
 	        scanner.nextLine();
