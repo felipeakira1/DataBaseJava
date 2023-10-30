@@ -1,11 +1,15 @@
 package dataBaseReference.DAO;
 
 import java.sql.SQLException;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Comparator;
 
+import dataBaseReference.DTO.Customer;
 import dataBaseReference.DTO.Orders;
 import dataBaseReference.RDBMS.MemoryDBConnection;
 
@@ -19,6 +23,21 @@ public class Order_Mem_DAO extends AbstractOrderDAO
       super();
       this.databaseRef = databaseRef;
       }
+   
+   @Override
+   public List<Orders> getOrdersByCustomerIdOrderedByNumber(int customerId) throws SQLException {
+	   List<Orders> orders = new ArrayList<>();
+	   List<Orders> customerOrders = getOrdersByCustomerId(customerId);
+	   Collections.sort(customerOrders, new Comparator<Orders>() {
+		   @Override
+		   public int compare(Orders order1, Orders order2) {
+			   return Integer.compare(order1.getNumber(), order2.getNumber());
+		   }
+	   });
+	   
+	   orders.addAll(customerOrders);
+	   return orders;
+   }
    
    @Override
    public List<Orders> getAllOrdersOrderedByNumber() throws SQLException{
@@ -117,10 +136,19 @@ public class Order_Mem_DAO extends AbstractOrderDAO
             }
          }
       }
+   
+   @Override
+   public void deleteAllOrders() throws SQLException {
+	   databaseRef.getOrderList().clear();
+   }
 
    @Override
-   public void deleteAllOrders() throws SQLException
-      {
-      databaseRef.getOrderList().clear();
-      }
+   public void deleteAllOrdersFromCustomer(int customerId) throws SQLException {
+	   Iterator<Orders> iterator = getOrdersByCustomerId(customerId).iterator();
+	   
+	   while(iterator.hasNext()) {
+		   Orders orderToDelete = iterator.next();
+		   deleteOrder(orderToDelete.getNumber());
+	   }
    }
+}

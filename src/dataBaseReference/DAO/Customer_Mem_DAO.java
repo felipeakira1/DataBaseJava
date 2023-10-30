@@ -4,16 +4,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Comparator;
 import java.util.List;
 
 import dataBaseReference.DTO.Customer;
 import dataBaseReference.RDBMS.MemoryDBConnection;
 
 
-public class Customer_Mem_DAO extends AbstractCustomerDAO
-   {
-   private MemoryDBConnection databaseRef;
-
+public class Customer_Mem_DAO extends AbstractCustomerDAO {
+	private MemoryDBConnection databaseRef;
+   
    public Customer_Mem_DAO(MemoryDBConnection databaseRef)
       {
       super();
@@ -21,13 +21,28 @@ public class Customer_Mem_DAO extends AbstractCustomerDAO
       }
 
    @Override
+   public List<Customer> getAllCustomersOrderedById() throws SQLException {
+	   List<Customer> customers = databaseRef.getCustomerList();
+	   Collections.sort(customers, new Comparator<Customer>() {
+		   @Override
+		   public int compare(Customer customer1, Customer customer2) {
+			   return Integer.compare(customer1.getId(), customer2.getId());
+		   }
+	   });
+	   return customers;
+   }
+   
+   @Override
    public List<Customer> getAllCustomersOrderedByName() throws SQLException
       {
-      List<Customer> customers = new ArrayList<>();
-      customers = databaseRef.getCustomerList();
-      Collections.sort(customers);
-      customers.addAll(customers);
-      return customers;
+	   List<Customer> customers = databaseRef.getCustomerList();
+	   Collections.sort(customers, new Comparator<Customer>() {
+		   @Override
+		   public int compare(Customer customer1, Customer customer2) {
+			   return customer1.getName().compareTo(customer2.getName());
+		   }
+	   	});
+	   return customers;
       }
 
    @Override
@@ -46,6 +61,7 @@ public class Customer_Mem_DAO extends AbstractCustomerDAO
          if (buffer.getId() == customerId)
             {
             customer = buffer;
+            break;
             }
          }
       return customer;
@@ -105,6 +121,7 @@ public class Customer_Mem_DAO extends AbstractCustomerDAO
    @Override
    public void deleteAllCustomers() throws SQLException
       {
+	  databaseRef.getOrderList().clear();
       databaseRef.getCustomerList().clear();
       }
-   }
+}

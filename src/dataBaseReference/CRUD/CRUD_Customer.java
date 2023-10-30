@@ -1,22 +1,45 @@
 package dataBaseReference.CRUD;
 import java.sql.SQLException;
+
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import dataBaseReference.DAO.AbstractCustomerDAO;
+import dataBaseReference.DAO.AbstractOrderDAO;
 import dataBaseReference.DTO.Customer;
+import dataBaseReference.System.Controller;
 
 
 public class CRUD_Customer {
 	private Scanner scanner;
+	private AbstractCustomerDAO customerDAO;
+	private AbstractOrderDAO orderDAO;
 	
-	public CRUD_Customer() {
+	public CRUD_Customer(Controller selectedDB) {
 		scanner = new Scanner(System.in);
+		customerDAO = selectedDB.getCustomerDAO();
+		orderDAO = selectedDB.getOrdersDAO();
+	}
+	
+	public void autoInsertCustomers() {
+		 	Customer customer1 = new Customer(50001, "John Doe", "New York", "NY");
+		    Customer customer2 = new Customer(50002, "Alice Johnson", "Los Angeles", "CA");
+		    Customer customer3 = new Customer(50003, "Bob Smith", "Chicago", "IL");
+		    Customer customer4 = new Customer(50004, "Emily Davis", "Miami", "FL");
+		    
+			try {
+		        customerDAO.addCustomer(customer1);
+				customerDAO.addCustomer(customer2);
+				customerDAO.addCustomer(customer3);
+				customerDAO.addCustomer(customer4);
+	        } catch (SQLException e) {
+	            System.err.println("Error inserting customer: " + e.getMessage());
+	        }
 	}
 	
 	//group 5
-	public void insertCustomers(AbstractCustomerDAO customerDAO, int group) {
+	public void insertCustomers(int group) {
 	    System.out.print("Enter the number of customers you want to insert: ");
 	    int numCustomers = scanner.nextInt();
 	    scanner.nextLine(); // Consume the newline character
@@ -64,7 +87,7 @@ public class CRUD_Customer {
 	}
 	
 	
-	public int queryCustomerById(AbstractCustomerDAO customerDAO) {
+	public int queryCustomerById() {
 	    System.out.print("Enter the customer ID to query: ");
 	    int customerId = scanner.nextInt();
 	    scanner.nextLine();
@@ -92,7 +115,7 @@ public class CRUD_Customer {
 		
 	}
 	
-	public void queryCustomerByName(AbstractCustomerDAO customerDAO) {
+	public void queryCustomerByName() {
 		System.out.print("Enter the customer name to query: ");
 		String customerName = scanner.nextLine();
 		try {
@@ -117,7 +140,7 @@ public class CRUD_Customer {
 	    }
 	}
 	
-	public void deleteCustomerById(AbstractCustomerDAO customerDAO) {
+	public void deleteCustomerById() {
 		boolean inputValid = false;
 		int customerId = 0;
 		while(!inputValid) {
@@ -125,17 +148,26 @@ public class CRUD_Customer {
        	 		System.out.print("Enter the customer ID to delete: ");
        	 		customerId = scanner.nextInt();
        	 		scanner.nextLine();
-	       	 	try {
-	    			customerDAO.deleteCustomer(customerId);
-	    			System.out.println("Customer " + customerId + " deleted successfully");
-	       	 	} catch (SQLException e) {
-	    	        System.err.println("Error deleting customer: " + e.getMessage());
-	    	    }
        	 		
-       	 		inputValid = true;
+       	 		Customer customer = customerDAO.getCustomerById(customerId);
+       	 		if(customer != null) {
+    	       	 	try {
+    	       	 		orderDAO.deleteAllOrdersFromCustomer(customerId);
+    	    			customerDAO.deleteCustomer(customerId);
+    	    			System.out.println("Customer " + customerId + " deleted successfully");
+    	       	 	} catch (SQLException e) {
+    	    	        System.err.println("Error deleting customer: " + e.getMessage());
+    	    	    }
+           	 		
+           	 		inputValid = true;
+       	 		} else {
+       	 			System.err.println("Customer ID not found in system! Please try again.");
+       	 		}
        	 	} catch(InputMismatchException e) {
        	 		System.err.println("Invalid input. Please enter a valid integer for the customer ID.");
        	 		scanner.nextLine();
+       	 	} catch(SQLException e) {
+       	 		System.err.println("Error querying customer: " + e.getMessage());
        	 	}
        	 	// verificar se ele sairá do laço caso houver um sqlexception
    	 	}

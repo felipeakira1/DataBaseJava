@@ -20,6 +20,11 @@ public class Customer_DB_DAO extends AbstractCustomerDAO
       }
 
    @Override
+   public List<Customer> getAllCustomersOrderedById() {
+	   List<Customer> customers = new ArrayList<>();
+	   return customers;
+   }
+   @Override
    public List<Customer> getAllCustomersOrderedByName() throws SQLException
       {
       List<Customer> customers = new ArrayList<>();

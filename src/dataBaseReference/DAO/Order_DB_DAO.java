@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import dataBaseReference.DTO.Orders;
@@ -20,6 +22,20 @@ public class Order_DB_DAO extends AbstractOrderDAO
       this.connection = connection;
       }
 
+   @Override
+   public List<Orders> getOrdersByCustomerIdOrderedByNumber(int customerId) throws SQLException {
+	   List<Orders> orders = new ArrayList<>();
+	   /*List<Orders> customerOrders = getOrdersByCustomerId(customerId);
+	   Collections.sort(customerOrders, new Comparator<Orders>() {
+		   @Override
+		   public int compare(Orders order1, Orders order2) {
+			   return Integer.compare(order1.getNumber(), order2.getNumber());
+		   }
+	   });
+	   
+	   orders.addAll(customerOrders);*/
+	   return orders;
+   }
    @Override
    public List<Orders> getOrdersByCustomerId(int customerId) throws SQLException
       {
@@ -124,6 +140,16 @@ public class Order_DB_DAO extends AbstractOrderDAO
          }
       }
 
+   @Override
+   public void deleteAllOrdersFromCustomer(int customerId) throws SQLException{
+	   String query = "DELETE FROM Orders WHERE customerId = ?";
+	   
+	   try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
+		   preparedStatement.setInt(1, customerId);
+		   preparedStatement.executeUpdate();
+	   }
+   }
+   
 	@Override
 	public List<Orders> getAllOrdersOrderedByNumber() throws SQLException {
 		// TODO Auto-generated method stub

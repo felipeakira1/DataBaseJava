@@ -1,36 +1,63 @@
 package dataBaseReference.CRUD;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 import dataBaseReference.DAO.AbstractCustomerDAO;
 import dataBaseReference.DAO.AbstractOrderDAO;
 import dataBaseReference.DTO.Customer;
 import dataBaseReference.DTO.Orders;
+import dataBaseReference.System.Controller;
 
 public class CRUD_Order {
 	private Scanner scanner;
+	private AbstractCustomerDAO customerDAO;
+	private AbstractOrderDAO orderDAO;
 	
-	public CRUD_Order() {
+	public CRUD_Order(Controller selectedDB) {
 		scanner = new Scanner(System.in);
+		customerDAO = selectedDB.getCustomerDAO();
+		orderDAO = selectedDB.getOrdersDAO();
+	}
+	
+	public void autoInsertOrders() {
+		Orders order1 = new Orders(50001, 50001, "Sample Order 1", 100.0f);
+        Orders order2 = new Orders(50002, 50002, "Sample Order 2", 75.0f);
+        Orders order3 = new Orders(50003, 50003, "Sample Order 3", 120.0f);
+        Orders order4 = new Orders(50004, 50004, "Sample Order 4", 50.0f);
+		Orders order5 = new Orders(50005, 50001, "Sample Order 5", 80.0f);
+        Orders order6 = new Orders(50006, 50002, "Sample Order 6", 90.0f);
+        Orders order7 = new Orders(50007, 50003, "Sample Order 7", 65.0f);
+        Orders order8 = new Orders(50008, 50004, "Sample Order 8", 95.0f);
+        
+        try {
+            orderDAO.addOrder(order1);
+            orderDAO.addOrder(order2);
+            orderDAO.addOrder(order3);
+            orderDAO.addOrder(order4);
+            orderDAO.addOrder(order5);
+            orderDAO.addOrder(order6);
+            orderDAO.addOrder(order7);
+            orderDAO.addOrder(order8);
+        } catch(SQLException e) {
+        	System.err.println("Error inserting customer: " + e.getMessage());
+        }
 	}
 														//group 5
-	public void insertOrder(AbstractOrderDAO orderDAO, int group, int customerFound) {
-	    System.out.print("Enter the number of orders you want to insert: ");
+	public void insertOrder(int group, int customerFound) {
+		int lowerBound = group * 10000;
+        int upperBound = (group + 1) * 10000 - 1;
+        
+		System.out.print("Enter the number of orders you want to insert: ");
 	    int numOrders = scanner.nextInt();
 	    scanner.nextLine(); // Consume the newline character
 
 	    for (int i = 0; i < numOrders; i++) {
 	        Orders newOrder = new Orders();
 	        
-	        int lowerBound = group * 10000;
-	        int upperBound = (group + 1) * 10000 - 1;
-	        
 	        while(true) {
-		        System.out.print("\nEnter order number: ");
+		        System.out.print("\nEnter order number (" + lowerBound + " - " + upperBound + "): ");
 		        int number = scanner.nextInt();
 		        
 		        if (number < lowerBound || number > upperBound) {
@@ -63,7 +90,7 @@ public class CRUD_Order {
 	}
 	
 	
-	public void queryOrderByNumber(AbstractOrderDAO orderDAO, AbstractCustomerDAO customerDAO) {
+	public void queryOrderByNumber() {
 		System.out.print("Enter the order's number to query: ");
         int orderNumber = scanner.nextInt();
 		try {
@@ -89,7 +116,7 @@ public class CRUD_Order {
 	}
 	
 	
-	public void deleteOrderByNumber(AbstractOrderDAO orderDAO) {
+	public void deleteOrderByNumber() {
 		boolean inputValid = false;
    	 	int orderNumber = 0;
    	 	
