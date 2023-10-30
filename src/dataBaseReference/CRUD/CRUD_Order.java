@@ -1,9 +1,7 @@
 package dataBaseReference.CRUD;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 import dataBaseReference.DAO.AbstractCustomerDAO;

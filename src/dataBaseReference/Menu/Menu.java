@@ -85,6 +85,7 @@ public class Menu {
 
         int choice = scanner.nextInt();
         AbstractCustomerDAO customerDAO = selectedDB.getCustomerDAO();
+        AbstractOrderDAO orderDAO = selectedDB.getOrdersDAO();
         scanner.nextLine(); //consume newline character
         switch (choice) {
             case 1:
@@ -104,7 +105,7 @@ public class Menu {
                 break;
             case 4:
             	displayTitle("Deleting Customer by ID");
-           	 	customerCRUD.deleteCustomerById(customerDAO);         	 	
+           	 	customerCRUD.deleteCustomerById(customerDAO, orderDAO);         	 	
            	 	displayCustomerMenu();
                 break;
             case 5:

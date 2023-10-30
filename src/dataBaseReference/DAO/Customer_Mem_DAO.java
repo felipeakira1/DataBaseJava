@@ -46,6 +46,7 @@ public class Customer_Mem_DAO extends AbstractCustomerDAO
          if (buffer.getId() == customerId)
             {
             customer = buffer;
+            break;
             }
          }
       return customer;
@@ -105,6 +106,7 @@ public class Customer_Mem_DAO extends AbstractCustomerDAO
    @Override
    public void deleteAllCustomers() throws SQLException
       {
+	  databaseRef.getOrderList().clear();
       databaseRef.getCustomerList().clear();
       }
    }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import dataBaseReference.DAO.AbstractCustomerDAO;
+import dataBaseReference.DAO.AbstractOrderDAO;
 import dataBaseReference.DTO.Customer;
 
 
@@ -117,7 +118,7 @@ public class CRUD_Customer {
 	    }
 	}
 	
-	public void deleteCustomerById(AbstractCustomerDAO customerDAO) {
+	public void deleteCustomerById(AbstractCustomerDAO customerDAO, AbstractOrderDAO orderDAO) {
 		boolean inputValid = false;
 		int customerId = 0;
 		while(!inputValid) {
@@ -125,17 +126,26 @@ public class CRUD_Customer {
        	 		System.out.print("Enter the customer ID to delete: ");
        	 		customerId = scanner.nextInt();
        	 		scanner.nextLine();
-	       	 	try {
-	    			customerDAO.deleteCustomer(customerId);
-	    			System.out.println("Customer " + customerId + " deleted successfully");
-	       	 	} catch (SQLException e) {
-	    	        System.err.println("Error deleting customer: " + e.getMessage());
-	    	    }
        	 		
-       	 		inputValid = true;
+       	 		Customer customer = customerDAO.getCustomerById(customerId);
+       	 		if(customer != null) {
+    	       	 	try {
+    	       	 		orderDAO.deleteAllOrdersFromCustomer(customerId);
+    	    			customerDAO.deleteCustomer(customerId);
+    	    			System.out.println("Customer " + customerId + " deleted successfully");
+    	       	 	} catch (SQLException e) {
+    	    	        System.err.println("Error deleting customer: " + e.getMessage());
+    	    	    }
+           	 		
+           	 		inputValid = true;
+       	 		} else {
+       	 			System.err.println("Customer ID not found in system! Please try again.");
+       	 		}
        	 	} catch(InputMismatchException e) {
        	 		System.err.println("Invalid input. Please enter a valid integer for the customer ID.");
        	 		scanner.nextLine();
+       	 	} catch(SQLException e) {
+       	 		System.err.println("Error querying customer: " + e.getMessage());
        	 	}
        	 	// verificar se ele sairá do laço caso houver um sqlexception
    	 	}

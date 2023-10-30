@@ -117,10 +117,19 @@ public class Order_Mem_DAO extends AbstractOrderDAO
             }
          }
       }
+   
+   @Override
+   public void deleteAllOrders() throws SQLException {
+	   databaseRef.getOrderList().clear();
+   }
 
    @Override
-   public void deleteAllOrders() throws SQLException
-      {
-      databaseRef.getOrderList().clear();
-      }
+   public void deleteAllOrdersFromCustomer(int customerId) throws SQLException {
+	   Iterator<Orders> iterator = getOrdersByCustomerId(customerId).iterator();
+	   
+	   while(iterator.hasNext()) {
+		   Orders orderToDelete = iterator.next();
+		   deleteOrder(orderToDelete.getNumber());
+	   }
    }
+}

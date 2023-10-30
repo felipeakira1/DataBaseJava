@@ -124,6 +124,16 @@ public class Order_DB_DAO extends AbstractOrderDAO
          }
       }
 
+   @Override
+   public void deleteAllOrdersFromCustomer(int customerId) throws SQLException{
+	   String query = "DELETE FROM Orders WHERE customerId = ?";
+	   
+	   try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
+		   preparedStatement.setInt(1, customerId);
+		   preparedStatement.executeUpdate();
+	   }
+   }
+   
 	@Override
 	public List<Orders> getAllOrdersOrderedByNumber() throws SQLException {
 		// TODO Auto-generated method stub
