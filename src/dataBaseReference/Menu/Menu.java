@@ -146,7 +146,7 @@ public class Menu {
                 break;
             case 2:
             	displayTitle("Querying Order by Number");
-                orderCRUD.queryOrderByNumber(orderDAO);
+                orderCRUD.queryOrderByNumber(orderDAO, customerDAO);
             	displayOrderMenu();
                 break;
             case 3:

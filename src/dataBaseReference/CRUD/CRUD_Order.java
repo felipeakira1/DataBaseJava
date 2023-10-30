@@ -6,7 +6,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import dataBaseReference.DAO.AbstractCustomerDAO;
 import dataBaseReference.DAO.AbstractOrderDAO;
+import dataBaseReference.DTO.Customer;
 import dataBaseReference.DTO.Orders;
 
 public class CRUD_Order {
@@ -61,19 +63,20 @@ public class CRUD_Order {
 	}
 	
 	
-	public void queryOrderByNumber(AbstractOrderDAO orderDAO) {
+	public void queryOrderByNumber(AbstractOrderDAO orderDAO, AbstractCustomerDAO customerDAO) {
 		System.out.print("Enter the order's number to query: ");
         int orderNumber = scanner.nextInt();
 		try {
 	    	Orders order = orderDAO.getOrderByNumber(orderNumber);
-
 	        if (order != null) {
+	        	Customer customer = customerDAO.getCustomerById(order.getCustomerId());
+	        	
 	        	System.out.println("\n======================");
 	        	System.out.println("| Order Information: |");
 	        	System.out.println("======================");
 	            System.out.println("Order Nº: "     + order.getNumber());
 	            System.out.println("Customer ID: " 	+ order.getCustomerId());
-	            // Adicionar Customer name
+	            System.out.println("Customer Name: " 	+ customer.getName());
 	            System.out.println("Description: " 	+ order.getDescription());
 	            System.out.println("Price: US$ " 	+ order.getPrice());
 	            System.out.println("-----------------------");
