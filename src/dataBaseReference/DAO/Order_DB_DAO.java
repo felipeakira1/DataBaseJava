@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import dataBaseReference.DTO.Orders;
@@ -23,21 +21,47 @@ public class Order_DB_DAO extends AbstractOrderDAO
       }
 
    @Override
-   public List<Orders> getOrdersByCustomerIdOrderedByNumber(int customerId) throws SQLException {
+	public List<Orders> getAllOrdersOrderedByNumber() throws SQLException {
+		List<Orders> orders = new ArrayList<>();
+		String query = "SELECT * FROM Orders ORDER BY number";
+		try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+	         while (resultSet.next()) {
+	            Orders order = new Orders();
+	            order.setNumber(resultSet.getInt("number"));
+	            order.setCustomerId(resultSet.getInt("customerId"));
+	            order.setDescription(resultSet.getString("description"));
+	            order.setPrice(resultSet.getFloat("price"));
+	            orders.add(order);
+	            
+	         }
+		}
+		return orders;
+	}
+   
+   @Override
+   public List<Orders> getAllOrdersByCustomerIdOrderedByNumber(int customerId) throws SQLException {
 	   List<Orders> orders = new ArrayList<>();
-	   /*List<Orders> customerOrders = getOrdersByCustomerId(customerId);
-	   Collections.sort(customerOrders, new Comparator<Orders>() {
-		   @Override
-		   public int compare(Orders order1, Orders order2) {
-			   return Integer.compare(order1.getNumber(), order2.getNumber());
+	   String query = "SELECT * FROM Orders WHERE customerId = ? ORDER BY number";
+	   try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		   preparedStatement.setInt(1, customerId);
+		   ResultSet resultSet = preparedStatement.executeQuery();
+		   
+		   while(resultSet.next()) {
+			   	Orders order = new Orders();
+	            order.setNumber(resultSet.getInt("number"));
+	            order.setCustomerId(resultSet.getInt("customerId"));
+	            order.setDescription(resultSet.getString("description"));
+	            order.setPrice(resultSet.getFloat("price"));
+	            orders.add(order);
 		   }
-	   });
-	   
-	   orders.addAll(customerOrders);*/
+	   }
 	   return orders;
    }
+   
    @Override
-   public List<Orders> getOrdersByCustomerId(int customerId) throws SQLException
+   public List<Orders> getAllOrdersByCustomerId(int customerId) throws SQLException
       {
       List<Orders> orders = new ArrayList<>();
       String query = "SELECT * FROM Orders WHERE customerId = ?";
@@ -149,10 +173,4 @@ public class Order_DB_DAO extends AbstractOrderDAO
 		   preparedStatement.executeUpdate();
 	   }
    }
-   
-	@Override
-	public List<Orders> getAllOrdersOrderedByNumber() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

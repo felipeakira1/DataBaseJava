@@ -5,7 +5,6 @@ import java.util.Scanner;
 import dataBaseReference.CRUD.CRUD_Customer;
 import dataBaseReference.CRUD.CRUD_Information;
 import dataBaseReference.CRUD.CRUD_Order;
-import dataBaseReference.DAO.AbstractCustomerDAO;
 import dataBaseReference.System.Controller;
 
 public class InformationMenu {

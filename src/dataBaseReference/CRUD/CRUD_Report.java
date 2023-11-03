@@ -30,26 +30,24 @@ public class CRUD_Report {
     }
 	
 	public void displayOrdersTableHeader() {
-		System.out.println();
-	    System.out.println("=".repeat(60));
-	    System.out.format("%-10s | %-10s | %-20s | %-10s%n", "Order Number", "Customer ID", "Description", "Price");
-	    System.out.println("=".repeat(60));
+	    System.out.println("=".repeat(64));
+	    System.out.format("%-12s | %-12s | %-20s | %-10s%n", "Order Number", "Customer ID", "Description", "Price");
+	    System.out.println("=".repeat(64));
 	}
 
 	public void displayOrdersTableRow(Orders order) {
-	    System.out.format("%-10s | %-10s | %-20s | %-10s%n",
+	    System.out.format("%-12s | %-12s | %-20s | %-10s%n",
 	            order.getNumber(), order.getCustomerId(), order.getDescription(), "US$ " + order.getPrice());
 	}
 	
 	public void displayCustomerTableHeader() {
-		System.out.println();
 	    System.out.println("=".repeat(60));
-	    System.out.format("%-10s | %-20s | %-15s | %-10s%n", "ID", "Name", "City", "State");
+	    System.out.format("%-7s | %-20s | %-15s | %-10s%n", "ID", "Name", "City", "State");
 	    System.out.println("=".repeat(60));
 	}
 
 	public void displayCustomerTableRow(Customer customer) {
-	    System.out.format("%-10s | %-20s | %-15s | %-10s%n",
+	    System.out.format("%-7s | %-20s | %-15s | %-10s%n",
 	            customer.getId(), customer.getName(), customer.getCity(), customer.getState());
 	}
 
@@ -57,8 +55,7 @@ public class CRUD_Report {
 	public void queryCustomersOrderedById() {
     	displayTitle("List of Customers Ordered by Id");
 	    try {
-	    	List<Customer> listOfCustomers = new ArrayList<>();
-	    	listOfCustomers = customerDAO.getAllCustomersOrderedById();
+	    	List<Customer> listOfCustomers = customerDAO.getAllCustomersOrderedById();
 	    	if(!listOfCustomers.isEmpty()) {
 	    		displayCustomerTableHeader();
 	    		for(Customer customer : listOfCustomers) {
@@ -103,7 +100,7 @@ public class CRUD_Report {
 	    		displayOrdersTableHeader();
 	    		for(Orders order : listOfOrders) {
 	    			displayOrdersTableRow(order);
-		    		System.out.println("-".repeat(60));
+		    		System.out.println("-".repeat(64));
 	    		}
 	    	} else {
 	    		System.out.println("No orders found.");
@@ -125,14 +122,14 @@ public class CRUD_Report {
 					           " | City: " + customer.getCity() + " | State: " + customer.getState());
 					
 					System.out.println();
-					List<Orders> listOfOrders = orderDAO.getOrdersByCustomerIdOrderedByNumber(customer.getId());
+					List<Orders> listOfOrders = orderDAO.getAllOrdersByCustomerIdOrderedByNumber(customer.getId());
 					if(!listOfOrders.isEmpty()) {
 						displayOrdersTableHeader();
 						for(Orders order : listOfOrders) {
 							displayOrdersTableRow(order);
 							totalPrice += order.getPrice();
 						}
-					    System.out.println("=".repeat(60));
+					    System.out.println("=".repeat(64));
 					    System.out.println("Total Price: US$ " + totalPrice);
 					} else {
 						System.out.println("No orders found for this customer.");

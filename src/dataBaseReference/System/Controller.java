@@ -1,10 +1,9 @@
 package dataBaseReference.System;
 
-import java.math.BigDecimal;
-import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
+import java.sql.Connection;
 
 import dataBaseReference.DAO.AbstractCustomerDAO;
 import dataBaseReference.DAO.AbstractOrderDAO;
@@ -30,10 +29,18 @@ public class Controller
       super();
       this.selectedDataBase = selectedDataBase;
       }
-
-   private void openConnection()
-      {
-      switch (selectedDataBase)
+   
+   private void openMariaDBConnection(String serverAdress, int port, String databaseName, String username, String password) {
+	   myDBConnection = new MariaDBConnection(serverAdress, port, databaseName, username, password);
+       this.customerDAO = new Customer_DB_DAO(myDBConnection.getConnection());
+       this.ordersDAO = new Order_DB_DAO(myDBConnection.getConnection());
+   }
+   
+   private void openMemoryConnection() {
+	   memoryDBConnection = new MemoryDBConnection();
+       this.customerDAO = new Customer_Mem_DAO(memoryDBConnection);
+       this.ordersDAO = new Order_Mem_DAO(memoryDBConnection);
+      /*switch (selectedDataBase)
          {
          case MEMORY:
             {
@@ -54,9 +61,12 @@ public class Controller
             System.out.println("Database selection not supported.");
             throw new InvalidParameterException("Selector is unspecified: " + selectedDataBase);
             }
-         }
+         }*/
       }
-
+   
+   public Connection getMariaDBConnection() {
+	   return myDBConnection.getConnection();
+   }
    private void closeConnection()
       {
       if (myDBConnection != null)
@@ -71,7 +81,7 @@ public class Controller
 
    public void start()
       {
-      openConnection();
+      //openConnection();
       insertData();
       requestData();
       updateData();
@@ -81,9 +91,13 @@ public class Controller
       closeConnection();
       }
    
-   public void initializeConnection()
+   public void initializeConnection() {
+	   openMemoryConnection();
+   }
+   
+   public void initializeConnection(String serverAdress, int port, String databaseName, String username, String password)
    {
-	   openConnection();
+	   openMariaDBConnection(serverAdress, port, databaseName, username, password);
    }
    public void endConnection()
    {
@@ -169,7 +183,7 @@ public class Controller
          {
          int customerId = 1; // Replace with the desired customer
                              // ID
-         List<Orders> customerOrders = ordersDAO.getOrdersByCustomerId(customerId);
+         List<Orders> customerOrders = ordersDAO.getAllOrdersByCustomerId(customerId);
 
          for (Orders order : customerOrders)
             {

@@ -2,9 +2,7 @@ package dataBaseReference.Menu;
 
 import java.util.Scanner;
 import dataBaseReference.CRUD.CRUD_Customer;
-import dataBaseReference.DAO.AbstractCustomerDAO;
 import dataBaseReference.System.Controller;
-import dataBaseReference.DAO.AbstractOrderDAO;
 
 public class CustomerMenu {
 	private Scanner scanner;

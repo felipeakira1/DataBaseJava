@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Comparator;
 
-import dataBaseReference.DTO.Customer;
 import dataBaseReference.DTO.Orders;
 import dataBaseReference.RDBMS.MemoryDBConnection;
 
@@ -25,9 +24,9 @@ public class Order_Mem_DAO extends AbstractOrderDAO
       }
    
    @Override
-   public List<Orders> getOrdersByCustomerIdOrderedByNumber(int customerId) throws SQLException {
+   public List<Orders> getAllOrdersByCustomerIdOrderedByNumber(int customerId) throws SQLException {
 	   List<Orders> orders = new ArrayList<>();
-	   List<Orders> customerOrders = getOrdersByCustomerId(customerId);
+	   List<Orders> customerOrders = getAllOrdersByCustomerId(customerId);
 	   Collections.sort(customerOrders, new Comparator<Orders>() {
 		   @Override
 		   public int compare(Orders order1, Orders order2) {
@@ -68,7 +67,7 @@ public class Order_Mem_DAO extends AbstractOrderDAO
    }
 
    @Override
-   public List<Orders> getOrdersByCustomerId(int customerId) throws SQLException
+   public List<Orders> getAllOrdersByCustomerId(int customerId) throws SQLException
       {
       List<Orders> orders = new ArrayList<>();
       Iterator<Orders> iterator = databaseRef.getOrderList().iterator();
@@ -144,7 +143,7 @@ public class Order_Mem_DAO extends AbstractOrderDAO
 
    @Override
    public void deleteAllOrdersFromCustomer(int customerId) throws SQLException {
-	   Iterator<Orders> iterator = getOrdersByCustomerId(customerId).iterator();
+	   Iterator<Orders> iterator = getAllOrdersByCustomerId(customerId).iterator();
 	   
 	   while(iterator.hasNext()) {
 		   Orders orderToDelete = iterator.next();

@@ -1,8 +1,6 @@
 package dataBaseReference.Menu;
 
 import java.util.Scanner;
-import dataBaseReference.DAO.AbstractCustomerDAO;
-import dataBaseReference.DAO.AbstractOrderDAO;
 import dataBaseReference.CRUD.CRUD_Report;
 import dataBaseReference.System.Controller;
 

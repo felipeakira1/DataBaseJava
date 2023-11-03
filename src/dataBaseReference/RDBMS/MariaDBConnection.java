@@ -6,20 +6,24 @@ import java.sql.SQLException;
 
 public final class MariaDBConnection
    {
-   private static final String JDBC_URL   = "jdbc:mariadb://143.106.243.64:3306/SI400";
-   private static final String USERNAME   = "si400_2023";
-   private static final String PASSWORD   = "si400_2023";
+   private String JDBC_URL;
+   private String USERNAME;
+   private String PASSWORD;
    private Connection          connection = null;
-
+   
    public Connection getConnection()
       {
       return (connection);
       }
 
-   public MariaDBConnection()
+   public MariaDBConnection(String serverAdress, int port, String databaseName, String username, String password)
       {
       super();
-
+      
+      JDBC_URL = "jdbc:mariadb://" + serverAdress + ":" + port + "/" + databaseName;
+      USERNAME = username;
+      PASSWORD = password;
+      
       try
          {
          connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);

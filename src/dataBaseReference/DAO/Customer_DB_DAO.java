@@ -20,10 +20,23 @@ public class Customer_DB_DAO extends AbstractCustomerDAO
       }
 
    @Override
-   public List<Customer> getAllCustomersOrderedById() {
+   public List<Customer> getAllCustomersOrderedById() throws SQLException {
 	   List<Customer> customers = new ArrayList<>();
+	   String query = "SELECT * FROM Customer ORDER BY Id";
+	   try(PreparedStatement preparedStatement = connection.prepareStatement(query);
+			   ResultSet resultSet = preparedStatement.executeQuery()) {
+		   	while(resultSet.next()) {
+		   		Customer customer = new Customer();
+	            customer.setId(resultSet.getInt("id"));
+	            customer.setName(resultSet.getString("name"));
+	            customer.setCity(resultSet.getString("city"));
+	            customer.setState(resultSet.getString("state"));
+	            customers.add(customer);
+		   	}
+	   }
 	   return customers;
    }
+   
    @Override
    public List<Customer> getAllCustomersOrderedByName() throws SQLException
       {
@@ -75,9 +88,23 @@ public class Customer_DB_DAO extends AbstractCustomerDAO
    @Override
    public List<Customer> getCustomersByName(String customerName) throws SQLException {
 	   List<Customer> customers = new ArrayList<>();
-	   String query = "FAZER";
+	   String query = "SELECT * FROM Customer WHERE name = ?";
+	   try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+		   preparedStatement.setString(1, customerName);
+		   ResultSet resultSet = preparedStatement.executeQuery();
+		   
+		   while(resultSet.next()) {
+			   	Customer customer = new Customer();
+	            customer.setId(resultSet.getInt("id"));
+	            customer.setName(resultSet.getString("name"));
+	            customer.setCity(resultSet.getString("city"));
+	            customer.setState(resultSet.getString("state"));
+	            customers.add(customer);
+		   }
+	   }
 	   return customers;
    }
+   
    @Override
    public void addCustomer(Customer customer) throws SQLException
       {
