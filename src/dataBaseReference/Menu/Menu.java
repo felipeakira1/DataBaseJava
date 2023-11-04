@@ -14,6 +14,29 @@ public class Menu {
     	scanner = new Scanner(System.in);
     }
     
+    public void authenticate() {
+        System.out.println("\n====================================");
+        System.out.println("|          Authentication          |");
+        System.out.println("====================================");
+
+        String username;
+        String password;
+
+        do {
+            System.out.print("Username: ");
+            username = scanner.nextLine();
+            System.out.print("Password: ");
+            password = scanner.nextLine();
+
+            if (username.equals("si400_2023") && password.equals("si400_2023")) {
+                System.out.println("Authentication successful.");
+                break;
+            } else {
+                System.out.println("Authentication failed. Please try again.");
+            }
+        } while (true);
+    }
+    
     public void displayChoiceMenu() {
     	System.out.println();
     	do {

@@ -7,6 +7,7 @@ public class Main {
     	CRUD_Information.helpInformation();
     	CRUD_Information.aboutProgram();
     	Menu menu = new Menu();
+    	menu.authenticate();
     	menu.displayChoiceMenu();
         menu.close();
     }
