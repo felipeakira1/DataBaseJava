@@ -22,19 +22,18 @@ public class Menu {
         String username;
         String password;
         
-        do {
-            System.out.print("Username: ");
-            username = scanner.nextLine();
-            System.out.print("Password: ");
-            password = scanner.nextLine();
 
-            if (username.equals("si400_2023") && password.equals("si400_2023")) {
-                System.out.println("Authentication successful.");
-                break;
-            } else {
-                System.out.println("Authentication failed. Please try again.");
-            }
-        } while (true);
+        System.out.print("Username: ");
+        username = scanner.nextLine();
+        System.out.print("Password: ");
+        password = scanner.nextLine();
+
+        if (username.equals("si400_2023") && password.equals("si400_2023")) {
+            System.out.println("Authentication successful.");
+        } else {
+            System.out.println("Authentication failed. Please try again.");
+            authenticate();
+        }
     }
     
     public void displayChoiceMenu() {
