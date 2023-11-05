@@ -21,7 +21,7 @@ public class Menu {
 
         String username;
         String password;
-
+        
         do {
             System.out.print("Username: ");
             username = scanner.nextLine();
@@ -39,32 +39,31 @@ public class Menu {
     
     public void displayChoiceMenu() {
     	System.out.println();
-    	do {
-    		System.out.println("Choose a database connection type:");
-            System.out.println("1 - In-Memory Database");
-            System.out.println("2 - MariaDB Connection");
-            
-            System.out.print("Enter your choice: ");
-            int connectionType = Integer.parseInt(scanner.nextLine());
-            
-            if(connectionType == 1) {
-            	selectedDB = new Controller(DataBaseType.MEMORY);
+		System.out.println("Choose a database connection type:");
+        System.out.println("1 - In-Memory Database");
+        System.out.println("2 - MariaDB Connection");
+        
+        System.out.print("Enter your choice: ");
+        int connectionType = Integer.parseInt(scanner.nextLine());
+        
+        switch(connectionType) {
+        	case 1:
+            	selectedDB = new Controller();
             	selectedDB.initializeConnection();
             	displayMainMenu();
             	break;
-            } else if(connectionType == 2) {
-            	selectedDB = new Controller(DataBaseType.MARIADB);
+        	case 2:
+            	selectedDB = new Controller();
             	displayConnectionMenu();
             	if(selectedDB.getMariaDBConnection() == null) {
             		break;
             	}
             	displayMainMenu();
             	break;
-            } else {
-            	System.out.println("Invalid choice. Please choose 1 or 2.");
-            }
-    	} while(true);
-    	
+        	default:
+        		System.out.println("\nInvalid choice. Please choose 1 or 2.");
+        		displayChoiceMenu();
+        }
     }
     public void displayConnectionMenu() {
         System.out.println("\n============================================");
@@ -106,6 +105,7 @@ public class Menu {
     			if(choice == 2) {
     				break;
     			}
+    			System.out.println();
     		}
         } while (selectedDB.getMariaDBConnection() == null);
     }

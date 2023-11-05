@@ -124,22 +124,6 @@ public class Customer_DB_DAO extends AbstractCustomerDAO
       }
 
    @Override
-   public void updateCustomer(Customer customer) throws SQLException
-      {
-      String query = "UPDATE Customer SET name = ?, city = ?, state = ? WHERE id = ?";
-
-      try (PreparedStatement preparedStatement = connection.prepareStatement(query))
-         {
-         preparedStatement.setString(1, customer.getName());
-         preparedStatement.setString(2, customer.getCity());
-         preparedStatement.setString(3, customer.getState());
-         preparedStatement.setInt(4, customer.getId());
-
-         preparedStatement.executeUpdate();
-         }
-      }
-
-   @Override
    public void deleteCustomer(int customerId) throws SQLException
       {
       String query = "DELETE FROM Customer WHERE id = ?";

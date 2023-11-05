@@ -44,15 +44,16 @@ public class InformationMenu {
                 break;
             case 3:
             	// Criação automatica de um lote de clientes e respectivos pedidos para popular o BD durante testes
-
             	customerCRUD.autoInsertCustomers();
             	orderCRUD.autoInsertOrders();
-            	System.out.println("Database populated successfully.");
             	displayInformationMenu();
             	break;
             	
             case 4:
             	// Limpeza dos dados, para excluir todos os registros de clientes e pedidos na faixa válida do grupo.
+            	orderCRUD.deleteAllOrders(); 
+            	customerCRUD.deleteAllCustomers();
+            	displayInformationMenu();
             case 5:
             	return;
             default:

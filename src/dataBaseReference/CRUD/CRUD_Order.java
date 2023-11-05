@@ -40,8 +40,10 @@ public class CRUD_Order {
             orderDAO.addOrder(order6);
             orderDAO.addOrder(order7);
             orderDAO.addOrder(order8);
+            
+            System.out.println("Sucessfully inserted generated orders!");
         } catch(SQLException e) {
-        	System.err.println("Error inserting customer: " + e.getMessage());
+        	System.err.println("Error inserting auto generated orders: " + e.getMessage());
         }
 	}
 														//group 5
@@ -138,6 +140,15 @@ public class CRUD_Order {
        	 	}
    	 	}
 		
+	}
+	
+	public void deleteAllOrders() {
+		try {
+			orderDAO.deleteAllOrders();
+			System.out.println("\nSucessfully cleared all orders!");
+		} catch (SQLException e) {
+			System.err.println("Error clearing all orders: " + e.getMessage());
+		}
 	}
 	
 	public void close() {

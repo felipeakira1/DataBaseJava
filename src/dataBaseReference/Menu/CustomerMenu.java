@@ -41,7 +41,7 @@ public class CustomerMenu {
         scanner.nextLine(); //consume newline character
         switch(choice) {
         	case 1:
-        		System.out.println("=======================");
+        		System.out.println("\n=======================");
         		System.out.println("| Inserting Customers |");
         		System.out.println("=======================");
 	            customerCRUD.insertCustomers(5);

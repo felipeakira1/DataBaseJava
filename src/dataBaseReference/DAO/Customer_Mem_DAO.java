@@ -88,21 +88,6 @@ public class Customer_Mem_DAO extends AbstractCustomerDAO {
       }
 
    @Override
-   public void updateCustomer(Customer customer) throws SQLException
-      {
-      ArrayList<Customer> customers = databaseRef.getCustomerList();
-
-      for (int index = 0; index < customers.size(); index++)
-         {
-         if (customers.get(index).getId() == customer.getId())
-            {
-            customers.set(index, customer);
-            break;
-            }
-         }
-      }
-
-   @Override
    public void deleteCustomer(int customerId) throws SQLException
       {
       ArrayList<Customer> customers = databaseRef.getCustomerList();

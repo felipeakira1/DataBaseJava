@@ -33,8 +33,10 @@ public class CRUD_Customer {
 				customerDAO.addCustomer(customer2);
 				customerDAO.addCustomer(customer3);
 				customerDAO.addCustomer(customer4);
+				
+				System.out.println("\nSucessfully inserted generated customers!");
 	        } catch (SQLException e) {
-	            System.err.println("Error inserting customer: " + e.getMessage());
+	            System.err.println("Error inserting auto generated customers: " + e.getMessage());
 	        }
 	}
 	
@@ -171,6 +173,15 @@ public class CRUD_Customer {
        	 	}
        	 	// verificar se ele sairá do laço caso houver um sqlexception
    	 	}
+	}
+	
+	public void deleteAllCustomers() {
+		try {
+			customerDAO.deleteAllCustomers();
+			System.out.println("Sucessfully cleared all customers!");
+		} catch (SQLException e) {
+			System.err.println("Error clearing all customers: " + e.getMessage());
+		}
 	}
 	
 	public void close() {

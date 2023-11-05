@@ -16,8 +16,6 @@ public abstract class AbstractCustomerDAO {
 
 	abstract public void addCustomer(Customer customer) throws SQLException;
 
-	abstract public void updateCustomer(Customer customer) throws SQLException;
-
 	abstract public void deleteCustomer(int customerId) throws SQLException;
 
 	abstract public void deleteAllCustomers() throws SQLException;

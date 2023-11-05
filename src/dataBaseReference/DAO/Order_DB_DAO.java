@@ -126,22 +126,6 @@ public class Order_DB_DAO extends AbstractOrderDAO
       }
 
    @Override
-   public void updateOrder(Orders order) throws SQLException
-      {
-      String query = "UPDATE Orders SET customerId = ?, description = ?, price = ? WHERE number = ?";
-
-      try (PreparedStatement preparedStatement = connection.prepareStatement(query))
-         {
-         preparedStatement.setInt(1, order.getCustomerId());
-         preparedStatement.setString(2, order.getDescription());
-         preparedStatement.setFloat(3, order.getPrice());
-         preparedStatement.setInt(4, order.getNumber());
-
-         preparedStatement.executeUpdate();
-         }
-      }
-
-   @Override
    public void deleteOrder(int orderNumber) throws SQLException
       {
       String query = "DELETE FROM Orders WHERE number = ?";

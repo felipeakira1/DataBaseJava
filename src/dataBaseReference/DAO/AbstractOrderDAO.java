@@ -9,8 +9,6 @@ public abstract class AbstractOrderDAO {
 	
 	abstract public void addOrder(Orders order) throws SQLException;
 
-	abstract public void updateOrder(Orders order) throws SQLException;
-
 	abstract public void deleteOrder(int orderNumber) throws SQLException;
 
 	abstract public void deleteAllOrders() throws SQLException;
