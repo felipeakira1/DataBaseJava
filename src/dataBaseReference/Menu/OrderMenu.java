@@ -37,7 +37,7 @@ public class OrderMenu {
         System.out.println("| 1. Insert order for a customer         |");
         System.out.println("| 2. Query order by number               |");
         System.out.println("| 3. Delete order by number              |");
-        System.out.println("| 5. Back to Main Menu                   |");
+        System.out.println("| 4. Back to Main Menu                   |");
         System.out.println("==========================================");
         System.out.print("Choose an option: ");
         int choice = scanner.nextInt();
@@ -66,7 +66,7 @@ public class OrderMenu {
            	 	orderCRUD.deleteOrderByNumber();
             	displayOrderMenu();
                 break;
-            case 5:
+            case 4:
             	return;
             default:
                 System.out.println("\nInvalid option. Please try again.");

@@ -85,10 +85,10 @@ public class Menu {
             System.out.print("Database Name: ");
             databaseName = scanner.nextLine();
             
-            System.out.print("Username: " );
+            System.out.print("Database Username: " );
             username = scanner.nextLine();
             
-            System.out.print("Password: ");
+            System.out.print("Database Password: ");
             password = scanner.nextLine();
             
     		selectedDB.initializeConnection(serverAdress, port, databaseName, username, password);
@@ -103,6 +103,8 @@ public class Menu {
     			scanner.nextLine();
     			if(choice == 2) {
     				break;
+    			} else if(choice != 1) {
+    				System.err.println("Invalid choice. Please enter 1 or 2.");
     			}
     			System.out.println();
     		}
